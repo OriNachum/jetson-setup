@@ -19,7 +19,7 @@ pip install jetson-cli
 
 ### From Source
 ```bash
-git clone https://github.com/your-org/jetson-cli.git
+git clone https://github.com/orinachum/jetson-cli.git
 cd jetson-cli
 pip install -e .
 ```
