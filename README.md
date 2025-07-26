@@ -1,1 +1,1 @@
-# jetson-setup
+# jetson-cli
