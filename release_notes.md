@@ -1,6 +1,6 @@
 ## What's Changed
 
-### Version 0.2.0
+### Version 0.3.0
 
 This release includes:
 - Automated version bump (minor)
@@ -9,7 +9,7 @@ This release includes:
 
 ### Installation
 ```bash
-pip install jetson-cli==0.2.0
+pip install jetson-cli==0.3.0
 ```
 
 ### Usage
@@ -20,4 +20,4 @@ jetson-cli init
 jetson-cli setup
 ```
 
-**Full Changelog**: https://github.com/OriNachum/jetson-cli/compare/v0.1.0...v0.2.0
+**Full Changelog**: https://github.com/OriNachum/jetson-cli/compare/v0.2.0...v0.3.0
