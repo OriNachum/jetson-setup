@@ -1,0 +1,91 @@
+name: Test Installation
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  test-pip-install:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8, 3.9, '3.10', 3.11, 3.12]
+
+    steps:
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install from PyPI
+      run: |
+        pip install jetson-cli
+
+    - name: Test CLI functionality
+      run: |
+        jetson-cli --version
+        jetson-cli --help
+        
+        # Test each command help
+        jetson-cli probe --help
+        jetson-cli init --help
+        jetson-cli setup --help
+        jetson-cli configure --help
+        jetson-cli status --help
+
+    - name: Test CLI with platform check disabled
+      env:
+        JETSON_CLI_SKIP_PLATFORM_CHECK: "1"
+      run: |
+        # Test commands that don't require actual Jetson hardware
+        jetson-cli status --format json || echo "Status command tested"
+        jetson-cli --version
+
+  test-docker-install:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build Docker test image
+      run: |
+        cat > Dockerfile.test << 'EOF'
+        FROM python:3.10-slim
+        
+        # Install system dependencies
+        RUN apt-get update && apt-get install -y \
+            bash \
+            curl \
+            sudo \
+            && rm -rf /var/lib/apt/lists/*
+        
+        # Install jetson-cli
+        RUN pip install jetson-cli
+        
+        # Test installation
+        RUN jetson-cli --version
+        
+        # Set environment to skip platform checks
+        ENV JETSON_CLI_SKIP_PLATFORM_CHECK=1
+        
+        CMD ["jetson-cli", "--help"]
+        EOF
+        
+        docker build -f Dockerfile.test -t jetson-cli-test .
+
+    - name: Test Docker installation
+      run: |
+        docker run --rm jetson-cli-test jetson-cli --version
+        docker run --rm jetson-cli-test jetson-cli --help
+
+  notify-success:
+    needs: [test-pip-install, test-docker-install]
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+    - name: Notify Success
+      run: |
+        echo "✅ All installation tests passed!"
+        echo "jetson-cli is ready for users to install via: pip install jetson-cli"

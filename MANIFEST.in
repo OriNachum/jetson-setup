@@ -1,0 +1,21 @@
+include README.md
+include LICENSE
+include CLAUDE.md
+include pyproject.toml
+include setup.py
+
+recursive-include jetson_cli *.py
+recursive-include jetson_cli/scripts *.sh
+recursive-include jetson_cli/config *.yaml *.yml *.json
+
+recursive-include scripts *.sh *.yaml *.yml
+recursive-include docs *.md
+
+exclude .gitignore
+exclude .github/workflows/*
+exclude tests/*
+exclude jetson-containers/*
+
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store
