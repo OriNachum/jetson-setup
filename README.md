@@ -2,6 +2,17 @@
 
 A comprehensive CLI tool for setting up NVIDIA Jetson devices and building containerized AI/ML applications using the jetson-containers framework.
 
+## Task list
+-[ ] Best practices compliation for jetson for humans and AI
+  -[ ] tools
+  -[ ] commands
+  -[ ] configurations 
+-[ ] docker images backup and restore scripts
+-[ ] GenAI integration on device, local or remote
+-[ ] Model inference setup recommendations
+-[ ] jetson-containers Package suite recommendations
+
+
 ## Overview
 
 jetson-cli provides a streamlined interface for:
